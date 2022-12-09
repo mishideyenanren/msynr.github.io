@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
   <title>圣诞树</title>
 
@@ -243,10 +243,10 @@
       document.getElementById("overlay").innerHTML =
         '<div class="text-loading">正在下载音乐，请稍等...</div>'
       const files = [
-        "http://m10.music.126.net/20221209195434/0d50f8b6ee60d296400c5c0a1b9f5fbd/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/13290165420/fc6c/46e4/528f/61c90025e0df71e9b4e48b9b9b16a085.mp3",
-        "http://m801.music.126.net/20221209195848/c700e3a77e2c12dd218817295e53c40b/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/13342023558/d68f/c9b4/e0c3/85e109671a5e49bcb10e3a7401f8639c.mp3",
-        "http://m701.music.126.net/20221209200745/4bd2100fc25a50de9e06b9c6a5887383/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/13399731485/97b4/2927/e8a3/116f81e4506013b46fbcabd0476b5a8b.mp3",
-        "http://m801.music.126.net/20221209200924/26082250c1cc260c77671668b1c37a4f/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/13405934474/2f02/b6dc/d4f6/535f19dfff87f5fb815d4c9eb3a7c54f.mp3"]
+        "http://m10.music.126.net/20221209205451/7ec2cc5a75a49240f9c303ea7fde5aff/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/13290165420/fc6c/46e4/528f/61c90025e0df71e9b4e48b9b9b16a085.mp3",
+        "http://m801.music.126.net/20221209210044/57f0209929c5493b05b7b7a0be77c17b/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/13399731485/97b4/2927/e8a3/116f81e4506013b46fbcabd0476b5a8b.mp3",
+        "http://m701.music.126.net/20221209205316/bcf4862d65752f54a74fd840e5f946a8/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/15206489861/785c/b165/65a7/40ed5f1617e5647b33daaf16da26ce17.mp3",
+        "http://m801.music.126.net/20221209210140/a6d039108febfa0171554b75aa7bc242/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/13405934474/2f02/b6dc/d4f6/535f19dfff87f5fb815d4c9eb3a7c54f.mp3"]
 
       const file = files[i]
 
