@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
 <title>大明密使·天寿山寻秘</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; overflow: hidden; background: #0a0a0a; font-family: 'Noto Serif SC', 'SimSun', serif; }
+  html, body { height: 100%; overflow: hidden; background: #0a0a0a; font-family: 'Noto Serif SC', 'SimSun', serif; -webkit-user-select: text; user-select: text; }
 
   .app-container {
     width: 100vw;
@@ -37,7 +38,7 @@
   .page.active {
     opacity: 1;
     transform: translateX(0);
-    pointer-events: auto;
+    pointer-events: auto !important;
   }
   .page.prev {
     opacity: 0;
@@ -641,6 +642,47 @@
     .interlude-title { font-size: clamp(1.5rem, 7vw, 1.9rem); }
     .puzzle-panel .clue { font-size: 0.78rem; }
   }
+
+  /* 翻页按钮 - 手机端友好 */
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(200,170,120,0.5);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 8;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.3s;
+  }
+  .nav-btn:hover, .nav-btn:active {
+    color: rgba(212,168,75,0.9);
+  }
+  .nav-prev { left: 0; }
+  .nav-next { right: 0; }
+
+  /* 手机端触摸优化 */
+  input, button {
+    -webkit-touch-callout: default;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  input:focus {
+    -webkit-user-modify: read-write;
+  }
+  /* 确保输入框不被任何层遮挡 */
+  .page-5 .content,
+  .page-5 .puzzle-panel,
+  .page-5 .input-group,
+  .page-5 input,
+  .page-5 button {
+    pointer-events: auto !important;
+  }
 </style>
 <base target="_blank">
 </head>
@@ -942,11 +984,11 @@
       <div class="text">任务 · 碑文寻字</div>
       <div class="line"></div>
     </div>
-    <div class="content" style="pointer-events: auto;">
+    <div class="content" style="pointer-events: auto; z-index: 10;">
       <div class="page-title">碑文寻字</div>
       <div class="page-subtitle">实地观察，推算密钥</div>
 
-      <div class="puzzle-panel">
+      <div class="puzzle-panel" style="pointer-events: auto;">
         <div class="puzzle-title">━━ 算题 ━━</div>
         <div class="clue"><span class="clue-num">线索一：</span>祾恩殿面阔间数为 A，进深间数为 B。将 A 与 B 组合，得两位数 AB。</div>
         <div class="clue"><span class="clue-num">线索二：</span>将 AB 的十位与个位相加，得数 C。</div>
@@ -956,15 +998,15 @@
         </div>
       </div>
 
-      <div class="input-group">
+      <div class="input-group" style="pointer-events: auto;">
         <span>第</span>
-        <input type="text" class="puzzle-input" id="colInput" maxlength="2" placeholder="?">
+        <input type="number" class="puzzle-input" id="colInput" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="?" style="pointer-events: auto; position: relative; z-index: 100;">
         <span>列 第</span>
-        <input type="text" class="puzzle-input" id="charInput" maxlength="2" placeholder="?">
+        <input type="number" class="puzzle-input" id="charInput" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="?" style="pointer-events: auto; position: relative; z-index: 100;">
         <span>字</span>
       </div>
 
-      <button class="submit-btn" id="submitBtn" onclick="checkAnswer()">验算</button>
+      <button class="submit-btn" id="submitBtn" onclick="checkAnswer()" style="pointer-events: auto; position: relative; z-index: 100;">验算</button>
       <div class="result-msg" id="resultMsg"></div>
 
       <div class="hidden-section" id="successSection">
@@ -983,9 +1025,9 @@
     </div>
     <div class="swipe-hint" id="page5Hint">轻触屏幕继续</div>
     <div class="lock-hint" id="lockHint">请先验算正确，方可继续</div>
-    <!-- page5 边缘滑动热区：只在屏幕左右边缘，不覆盖中间内容 -->
-    <div style="position:absolute; top:0; left:0; width:15%; height:100%; z-index:4; cursor:pointer; -webkit-tap-highlight-color: transparent;" onclick="prevPage()"></div>
-    <div style="position:absolute; top:0; right:0; width:15%; height:100%; z-index:4; cursor:pointer; -webkit-tap-highlight-color: transparent;" id="page5RightEdge" onclick="if(canGoNext()) nextPage();"></div>
+    <!-- 翻页按钮：放在内容区域外部，避免遮挡 -->
+    <div class="nav-btn nav-prev" onclick="prevPage()">◀</div>
+    <div class="nav-btn nav-next" id="page5NextBtn" onclick="if(canGoNext()) nextPage();">▶</div>
     <div class="nav-dots">
       <div class="nav-dot"></div>
       <div class="nav-dot"></div>
@@ -999,7 +1041,7 @@
     </div>
   </div>
 
-  <!-- ====== 第8页：对暗号·获印 ====== -->
+<!-- ====== 第8页：对暗号·获印 ====== -->
   <div class="page page-6" id="page6">
     <div class="bg-layer">
       <img src="https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?w=800&q=80" alt="bg">
@@ -1056,7 +1098,7 @@
       <div class="right">任务完成</div>
     </div>
     <div class="swipe-hint">轻触屏幕继续</div>
-    <div class="touch-zone left" onclick="prevPage()"></div>
+    <div class="nav-btn nav-prev" onclick="prevPage()">◀</div>
     <div class="nav-dots">
       <div class="nav-dot"></div>
       <div class="nav-dot"></div>
